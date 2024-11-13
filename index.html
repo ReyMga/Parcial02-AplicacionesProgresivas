@@ -5,15 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Tareas</title>
     <link rel="stylesheet" href="./styles.css">
+    <!-- Incluyendo Font Awesome para iconos -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <header>
             <h1>Gestión de Tareas</h1>
+            <!-- Botón de menú tipo "sandwich" -->
+            <button id="menu-button" onclick="toggleMenu()">☰</button>
         </header>
-        
+
         <div class="tasks-container" id="task-list"></div>
-        
+
+        <!-- Modal para crear tarea -->
         <dialog id="create-task-modal">
             <h2>Nueva Tarea</h2>
             <input type="text" id="task-title" placeholder="Título de la tarea">
@@ -22,10 +27,24 @@
             <button onclick="closeCreateTaskForm()">Cancelar</button>
         </dialog>
 
-        <nav>
-            <button onclick="showCreateTaskForm()">Crear Tarea</button>
-            <button onclick="showConfig()">Configuración</button>
-        </nav>
+        <!-- Modal del menú lateral -->
+        <dialog id="menu-modal">
+            <div class="menu-content">
+                <button onclick="showCreateTaskForm()">
+                    <i class="fas fa-plus-circle"></i> Crear Tarea
+                </button>
+                <button onclick="showChangeStatusForm()">
+                    <i class="fas fa-sync-alt"></i> Cambiar Estado
+                </button>
+                <button onclick="showConfig()">
+                    <i class="fas fa-cogs"></i> Configuración
+                </button>
+                <button onclick="toggleMenu()">
+                    <i class="fas fa-times"></i> Cerrar
+                </button>
+            </div>
+        </dialog>
+
     </div>
 
     <script src="./app.js"></script>

@@ -1,7 +1,7 @@
 const API_URL = "https://6733e8a8a042ab85d1185748.mockapi.io/tareas"; 
-
-
 // Obtener y mostrar las tareas
+
+
 async function getTasks() {
     try {
         const response = await fetch(API_URL);
@@ -12,42 +12,26 @@ async function getTasks() {
     }
 }
 
-// Mostrar las tareas en el DOM
+// Función para mostrar las tareas en el DOM
 function displayTasks(tasks) {
     const taskList = document.getElementById("task-list");
-    taskList.innerHTML = "";  // Limpio contenedor antes de agregar las tareas
+    taskList.innerHTML = "";  // Limpiar el contenedor antes de agregar las tareas
     
     tasks.forEach(task => {
         const taskCard = document.createElement("div");
         taskCard.className = "task-card";
-
-        const taskInfo = document.createElement("div");
-        taskInfo.className = "task-info";
-
-        const taskTitle = document.createElement("div");
-        taskTitle.className = "task-title";
-        taskTitle.textContent = task.title;
-
-        const taskDate = document.createElement("div");
-        taskDate.className = "task-date";
-        taskDate.textContent = new Date(task.createdAt).toLocaleString();
-
-        taskInfo.appendChild(taskTitle);
-        taskInfo.appendChild(taskDate);
-
-        const playButton = document.createElement("button");
-        playButton.className = "play-button";
-        playButton.innerHTML = "▶️";
-        playButton.onclick = () => playTaskDetail(task.detail);
-
-        taskCard.appendChild(taskInfo);
-        taskCard.appendChild(playButton);
-
+        taskCard.innerHTML = `
+            <div>
+                <h3>${task.title}</h3>
+                <p>${task.detail}</p>
+            </div>
+            <button onclick="playTaskDetail('${task.detail}')">▶️</button>
+        `;
         taskList.appendChild(taskCard);
     });
 }
 
-// Crear nueva tarea
+// Crear una nueva tarea
 async function createTask() {
     const title = document.getElementById("task-title").value;
     const detail = document.getElementById("task-detail").value;
@@ -60,23 +44,33 @@ async function createTask() {
             body: JSON.stringify(newTask),
         });
         closeCreateTaskForm();
-        getTasks(); // Actualiza la lista de tareas
+        getTasks();
     } catch (error) {
         console.error("Error al crear tarea:", error);
     }
 }
 
-// Función para abrir el formulario de creación de tarea
+// Función para abrir el modal de Crear Tarea
 function showCreateTaskForm() {
     document.getElementById("create-task-modal").showModal();
 }
 
-// Función para cerrar el formulario de creación de tarea
+// Función para cerrar el modal de Crear Tarea
 function closeCreateTaskForm() {
     document.getElementById("create-task-modal").close();
 }
 
-// Reproducir detalles de la tarea en formato de audio
+// Función para abrir/cerrar el menú
+function toggleMenu() {
+    const menuModal = document.getElementById("menu-modal");
+    if (menuModal.open) {
+        menuModal.close();
+    } else {
+        menuModal.showModal();
+    }
+}
+
+// Función para reproducir detalles de la tarea
 function playTaskDetail(taskDetail) {
     const utterance = new SpeechSynthesisUtterance(taskDetail);
     const config = JSON.parse(localStorage.getItem("audioConfig")) || { rate: 1, lang: "es-ES" };
