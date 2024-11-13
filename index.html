@@ -1,11 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Gestión de Tareas</title>
+    <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-    
+    <div class="container">
+        <header>
+            <h1>Gestión de Tareas</h1>
+        </header>
+        
+        <div class="tasks-container" id="task-list"></div>
+        
+        <dialog id="create-task-modal">
+            <h2>Nueva Tarea</h2>
+            <input type="text" id="task-title" placeholder="Título de la tarea">
+            <textarea id="task-detail" placeholder="Detalle de la tarea"></textarea>
+            <button onclick="createTask()">Guardar</button>
+            <button onclick="closeCreateTaskForm()">Cancelar</button>
+        </dialog>
+
+        <nav>
+            <button onclick="showCreateTaskForm()">Crear Tarea</button>
+            <button onclick="showConfig()">Configuración</button>
+        </nav>
+    </div>
+
+    <script src="./app.js"></script>
 </body>
 </html>
