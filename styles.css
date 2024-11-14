@@ -6,7 +6,7 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+    background-color: #e8f0fa;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -18,37 +18,57 @@ body {
     max-width: 800px;
     margin: 20px auto;
     text-align: center;
+    position: relative;
+}
+
+header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #1c3d73;
+    color: #ffffff;
+    border-radius: 8px;
 }
 
 header h1 {
-    margin-bottom: 20px;
-    color: #333;
+    font-size: 1.5em;
+}
+
+#menu-button {
+    font-size: 1.5em;
+    color: #ffffff;
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
 }
 
 .tasks-container {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    margin-top: 20px;
 }
 
 .task-card {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f8f9fa;  /* Color de fondo claro */
+    color: #343a40;  /* Color de texto oscuro */
+    padding: 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-#menu-button {
-    font-size: 1.5em;
-    background: none;
-    border: none;
-    cursor: pointer;
-    position: absolute;
-    top: 20px;
-    right: 20px;
+.task-card h3 {
+    font-size: 1.2rem;
+    color: #007bff;  
+}
+
+.task-card p {
+    font-size: 1rem;
+    color: #6c757d;  
 }
 
 #menu-modal {
@@ -57,37 +77,37 @@ header h1 {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #222;
-    color: #f4f4f9;
+    background: linear-gradient(135deg, #1e40af, #2563eb);
+    color: #ffffff;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
     box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
-    border-right: 2px solid #555;
+    transform: translateX(-100%);
     transition: transform 0.3s ease-in-out;
+    border-radius: 0 8px 8px 0;
 }
 
 #menu-modal[open] {
     transform: translateX(0);
 }
 
-#menu-modal:not([open]) {
-    transform: translateX(-250px);
-}
-
 .menu-content button {
-    background-color: #444;
+    background-color: #3b82f6;
     color: white;
-    padding: 12px;
+    padding: 10px 15px;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 1.1em;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
     transition: background-color 0.3s ease, transform 0.2s ease;
+    border: none;
 }
 
 .menu-content button:hover {
-    background-color: #666;
+    background-color: #60a5fa;
     transform: scale(1.05);
 }
 
@@ -95,7 +115,6 @@ header h1 {
     margin-right: 8px;
 }
 
-/* Modal de crear tarea */
 dialog {
     border: none;
     border-radius: 8px;
@@ -108,18 +127,18 @@ input, textarea {
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid #d1d5db;
 }
 
 button {
-    background-color: #444;
+    background-color: #007bff;  
     color: white;
+    border: none;
     padding: 10px 20px;
     border-radius: 5px;
-    border: none;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #666;
+    background-color: #0056b3;  
 }
