@@ -25,7 +25,6 @@ async function getTasks() {
 
 function enableDisableUpdateButton(tasks) {
     const changeStatusButton = document.getElementById("changeStatusButton");
-    debugger;
     if (changeStatusButton) {
         changeStatusButton.disabled = tasks.length === 0;
     } else {
@@ -36,85 +35,97 @@ function enableDisableUpdateButton(tasks) {
 
 // Función para mostrar las tareas en el DOM
 function displayTasks(tasks) {
-  const taskList = document.getElementById("task-list");
-  taskList.innerHTML = ""; // Limpiar el contenedor antes de agregar las tareas
-
-  tasks.forEach((task) => {
-    const taskCard = document.createElement("div");
-    taskCard.className = "task-card";
-    taskCard.id = `task-${task.id}`; // Agregar ID único para cada tarea
-
-    // Obtener la fecha y hora de creación
-    const creationDate = new Date(task.createdAt);
-    const formattedDate = `${creationDate.toLocaleDateString()} ${creationDate.toLocaleTimeString()}`;
-
-    taskCard.innerHTML = `
-        <div class="task-info">
-          <h3>${task.title}</h3>
-          <p><strong>Fecha de Creación:</strong> ${formattedDate}</p>
-          <p>${task.detail}</p>
-        </div>
-        <div class="task-actions">
-          <button onclick="playTaskDetail('${task.detail}')">▶️</button>
-          <button onclick="showChangeStatusForm('${task.id}', '${task.status}', '${task.title}')">Cambiar Estado</button>
-          <button onclick="deleteTask('${task.id}')">Eliminar</button>
-        </div>
-      `;
-
-    taskList.appendChild(taskCard);
-  });
-}
+    const taskList = document.getElementById("task-list");
+    taskList.innerHTML = ""; // Limpiar el contenedor antes de agregar las tareas
+  
+    tasks.forEach((task) => {
+      const taskCard = document.createElement("div");
+      taskCard.className = "task-card";
+      taskCard.id = `task-${task.id}`; // Agregar ID único para cada tarea
+  
+      // Obtener la fecha y hora de creación
+      const creationDate = new Date(task.createdAt);
+      const formattedDate = `${creationDate.toLocaleDateString()} ${creationDate.toLocaleTimeString()}`;
+  
+      taskCard.innerHTML = `
+          <div class="task-info">
+            <h3>${task.title}</h3>
+            <p><strong>Estado:</strong> ${task.status || "Desconocido"}</p>
+            <p><strong>Fecha de Creación:</strong> ${formattedDate}</p>
+            <p>${task.detail}</p>
+          </div>
+          <div class="task-actions">
+            <button onclick="deleteTask('${task.id}')">Eliminar</button>
+            <button onclick="playTaskDetail('${task.detail}')">▶️</button>
+            <button onclick="showChangeStatusForm('${task.id}', '${task.status}', '${task.title}')">Cambiar Estado</button>
+          </div>
+        `;
+  
+      taskList.appendChild(taskCard);
+    });
+  }
+  
 
 // Crear una nueva tarea
 function createTask() {
-  const taskTitle = document.getElementById("task-title").value;
-  const taskDetail = document.getElementById("task-detail").value;
-
-  if (taskTitle && taskDetail) {
-    const newTask = {
-      title: taskTitle,
-      detail: taskDetail,
-    };
-
-    // Enviar la nueva tarea a MockAPI
-    fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newTask),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        closeCreateTaskForm();
-        console.log("Tarea creada:", data);
-        Swal.fire({
-          icon: "success",
-          title: "Tarea creada",
-          text: "¡La tarea se ha añadido correctamente!",
-          confirmButtonColor: "#3085d6",
-        });
-        getTasks(); // Recargar las tareas para mostrar la nueva
+    const taskTitle = document.getElementById("task-title").value.trim();
+    const taskDetail = document.getElementById("task-detail").value.trim();
+    const statusDetail = document.getElementById("task-status").value;
+  
+    // Validar si los campos no están vacíos
+    if (taskTitle && taskDetail) {
+      const newTask = {
+        title: taskTitle,
+        detail: taskDetail,
+        status: statusDetail,
+      };
+  
+      // Enviar la nueva tarea a MockAPI
+      fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newTask),
       })
-      .catch((error) => {
-        console.error("Error al crear la tarea:", error);
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Hubo un problema al guardar la tarea.",
-          confirmButtonColor: "#d33",
+        .then((response) => response.json())
+        .then((data) => {
+          closeCreateTaskForm();
+          console.log("Tarea creada:", data);
+  
+          // Mostrar un mensaje de éxito con SweetAlert
+          Swal.fire({
+            icon: "success",
+            title: "Tarea creada",
+            text: "¡La tarea se ha añadido correctamente!",
+            confirmButtonColor: "#3085d6",
+          });
+  
+          // Recargar las tareas para mostrar la nueva
+          getTasks();
+        })
+        .catch((error) => {
+          console.error("Error al crear la tarea:", error);
+  
+          // Mostrar un mensaje de error con SweetAlert
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Hubo un problema al guardar la tarea.",
+            confirmButtonColor: "#d33",
+          });
         });
+    } else {
+      // Mostrar alerta si hay campos vacíos
+      Swal.fire({
+        icon: "error",
+        title: "Campos vacíos",
+        text: "Por favor, completa todos los campos antes de guardar la tarea.",
+        confirmButtonColor: "#d33",
       });
-  } else {
-    Swal.fire({
-      icon: "error",
-      title: "Campos vacíos",
-      text: "Por favor, completa todos los campos antes de guardar la tarea.",
-      confirmButtonColor: "#d33",
-    });
+    }
   }
-}
-
+  
 // Función para abrir el modal de Crear Tarea
 function showCreateTaskForm() {
   const modal = document.getElementById("create-task-modal");
@@ -254,19 +265,12 @@ function changeTaskStatus() {
 // Habitar o desabilitar boton de cambiar estado según corresponda
 
 function toggleSidebar() {
-  const sidebar = document.getElementById("sidebar");
-  const mainContainer = document.getElementById("main-container");
-
-  // Alterna la clase para abrir/cerrar el sidebar
-  sidebar.classList.toggle("open");
-
-  // Si el sidebar se abre, bloquea la interacción con el fondo
-  if (sidebar.classList.contains("open")) {
-    mainContainer.setAttribute("inert", ""); // Agrega el atributo inert
-  } else {
-    mainContainer.removeAttribute("inert"); // Elimina el atributo inert
+    const sidebar = document.getElementById("sidebar");
+  
+    // Alterna la clase para abrir/cerrar el sidebar
+    sidebar.classList.toggle("open");
   }
-}
+  
 
 // Función para reproducir el detalle de la tarea
 function playTaskDetail(taskDetail) {
