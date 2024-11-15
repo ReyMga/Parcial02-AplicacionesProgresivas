@@ -1,144 +1,230 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #e8f0fa;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: #e8f0fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
 .container {
-    width: 90%;
-    max-width: 800px;
-    margin: 20px auto;
-    text-align: center;
-    position: relative;
+  width: 90%;
+  max-width: 800px;
+  margin: 20px auto;
+  text-align: center;
+  position: relative;
 }
 
 header {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-    background-color: #1c3d73;
-    color: #ffffff;
-    border-radius: 8px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: #1c3d73;
+  color: #ffffff;
+  border-radius: 8px;
 }
 
 header h1 {
-    font-size: 1.5em;
+  font-size: 1.5em;
+}
+.task-completed {
+  background-color: #d3d3d3; /* Fondo gris para tareas finalizadas */
+  color: #808080; /* Texto gris para tareas finalizadas */
 }
 
 #menu-button {
-    font-size: 1.5em;
-    color: #ffffff;
-    background: none;
-    border: none;
-    cursor: pointer;
-    position: relative;
+  font-size: 1.5em;
+  color: #ffffff;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
 }
 
 .tasks-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
 }
 
 .task-card {
-    background-color: #f8f9fa;  /* Color de fondo claro */
-    color: #343a40;  /* Color de texto oscuro */
-    padding: 20px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #f8f9fa; /* Color de fondo claro */
+  color: #343a40; /* Color de texto oscuro */
+  padding: 20px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .task-card h3 {
-    font-size: 1.2rem;
-    color: #007bff;  
+  font-size: 1.2rem;
+  color: #007bff;
 }
 
 .task-card p {
-    font-size: 1rem;
-    color: #6c757d;  
+  font-size: 1rem;
+  color: #6c757d;
 }
 
 #menu-modal {
-    width: 250px;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: linear-gradient(135deg, #1e40af, #2563eb);
-    color: #ffffff;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
-    transform: translateX(-100%);
-    transition: transform 0.3s ease-in-out;
-    border-radius: 0 8px 8px 0;
+  width: 250px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: linear-gradient(135deg, #1e40af, #2563eb);
+  color: #ffffff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  border-radius: 0 8px 8px 0;
 }
 
 #menu-modal[open] {
-    transform: translateX(0);
+  transform: translateX(0);
 }
 
 .menu-content button {
-    background-color: #3b82f6;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1em;
-    display: flex;
-    align-items: center;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    border: none;
+  background-color: #3b82f6;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  border: none;
 }
 
 .menu-content button:hover {
-    background-color: #60a5fa;
-    transform: scale(1.05);
+  background-color: #60a5fa;
+  transform: scale(1.05);
 }
 
 .menu-content i {
-    margin-right: 8px;
+  margin-right: 8px;
 }
 
 dialog {
-    border: none;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border: none;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-input, textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    border: 1px solid #d1d5db;
+input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #d1d5db;
+}
+
+/* Estilos generales de las tarjetas */
+#task-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 20px;
+}
+
+.task-card {
+  width: 45%; /* Para pantallas grandes (horizontal) */
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.task-info {
+  margin-bottom: 10px;
+}
+
+.task-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
 }
 
 button {
-    background-color: #007bff;  
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
+  padding: 8px 15px;
+  background-color: #3085d6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 button:hover {
-    background-color: #0056b3;  
+  background-color: #276ea3;
+}
+
+/* Estilo para el sidebar */
+#sidebar {
+  position: fixed; /* Fija el sidebar a la izquierda */
+  top: 0;
+  left: -250px; /* Empuja el sidebar fuera de la pantalla al principio */
+  width: 250px;
+  height: 100%;
+  background-color: #1a1a2e; /* Color de fondo */
+  transition: 0.3s; /* Efecto de transición al abrir/cerrar */
+  padding-top: 20px;
+  z-index: 1000;
+}
+
+#sidebar .sidebar-content {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+#sidebar button {
+  background-color: #1a1a2e;
+  color: #ffffff;
+  border: 1px solid #333;
+  padding: 15px;
+  text-align: left;
+  margin: 10px 0;
+  font-size: 16px;
+}
+#main-container[inert] {
+  pointer-events: none; /* Bloquea la interacción con el fondo */
+  opacity: 0.5; /* Opcional: Da un efecto de atenuación al fondo */
+}
+#sidebar button:hover {
+  background-color: #333;
+}
+
+#sidebar.open {
+  left: 0; /* Muestra el sidebar */
+}
+
+/* Estilos responsivos */
+@media screen and (max-width: 768px) {
+  .task-card {
+    width: 100%; /* En pantallas más pequeñas, las tarjetas ocuparán todo el ancho */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .task-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

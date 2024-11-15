@@ -1,51 +1,137 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gestión de Tareas</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
     <!-- Font Awesome para íconos -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./styles.css">
-</head>
-<body class="bg-dark text-light">
-    <div class="container my-5 p-4 rounded" style="background-color: #1a1a2e;">
-        <header class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="text-neon">Gestión de Tareas</h1>
-            <!-- Botón de menú tipo "sandwich" -->
-            <button id="menu-button" class="btn btn-outline-light" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
-        </header>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="bg-dark text-light">
+    <div class="container my-5 p-4 rounded" style="background-color: #1a1a2e">
+      <header class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-neon">Gestión de Tareas</h1>
 
-        <div class="tasks-container" id="task-list"></div>
+        <!-- Botón para abrir el sidebar -->
+        <button onclick="toggleSidebar()" class="btn btn-primary">
+          <i class="fas fa-bars"></i>
+        </button>
+      </header>
 
-        <!-- Modal para crear tarea -->
-        <dialog id="create-task-modal" class="bg-dark text-light p-4 rounded border-0">
-            <h2 class="text-neon">Nueva Tarea</h2>
-            <input type="text" class="form-control bg-dark text-light border-neon mt-3" id="task-title" placeholder="Título de la tarea">
-            <textarea class="form-control bg-dark text-light border-neon mt-3" id="task-detail" placeholder="Detalle de la tarea"></textarea>
-            <button class="btn btn-neon mt-3" onclick="createTask()">Guardar</button>
-            <button class="btn btn-outline-light mt-3" onclick="closeCreateTaskForm()">Cancelar</button>
-        </dialog>
+      <div class="tasks-container" id="task-list"></div>
 
-        <!-- Modal del menú lateral -->
-        <dialog id="menu-modal" class="menu-modal bg-dark text-light">
-            <div class="menu-content">
-                <button class="btn btn-neon w-100 mb-3" onclick="showCreateTaskForm()">
-                    <i class="fas fa-plus-circle"></i> Crear Tarea
-                </button>
-                <button class="btn btn-neon w-100 mb-3" onclick="showChangeStatusForm()">
-                    <i class="fas fa-sync-alt"></i> Cambiar Estado
-                </button>
-                <button class="btn btn-neon w-100 mb-3" onclick="showConfig()">
-                    <i class="fas fa-cogs"></i> Configuración
-                </button>
-                <button class="btn btn-outline-light w-100" onclick="toggleMenu()">
-                    <i class="fas fa-times"></i> Cerrar
-                </button>
-            </div>
-        </dialog>
+      <!-- Modal para crear tarea -->
+      <dialog
+        id="create-task-modal"
+        class="bg-dark text-light p-4 rounded border-0"
+      >
+        <!-- *//55555/************************************************************************************-->
+        <h2 class="text-neon">Nueva Tarea</h2>
+        <input
+          type="text"
+          class="form-control bg-dark text-light border-neon mt-3"
+          id="task-title"
+          placeholder="Título de la tarea"
+        />
+        <textarea
+          class="form-control bg-dark text-light border-neon mt-3"
+          id="task-detail"
+          placeholder="Detalle de la tarea"
+        ></textarea>
+        <!-- Estado inicial de la tarea -->
+        <label for="task-status" class="form-label mt-3"
+          >Seleccionar Estado:</label
+        >
+        <select
+          id="task-status"
+          class="form-control bg-dark text-light border-neon mt-3"
+        >
+          <option value="pendiente">Pendiente</option>
+          <option value="en progreso">En Progreso</option>
+          <option value="completada">Completada</option>
+        </select>
+        <button class="btn btn-neon mt-3" onclick="closeCreateTaskForm()">
+          Cancelar
+        </button>
+        <button class="btn btn-outline-light mt-3" onclick="createTask()">
+          Guardar
+        </button>
+      </dialog>
+
+      <!-- Sidebar del menú lateral -->
+      <div id="sidebar" class="sidebar bg-dark text-light">
+        <div class="sidebar-content">
+          <button
+            class="btn btn-neon w-100 mb-3"
+            onclick="showCreateTaskForm()"
+          >
+            <i class="fas fa-plus-circle"></i> Crear Tarea
+          </button>
+          <button
+            class="btn btn-neon w-100 mb-3"
+            onclick="showChangeStatusForm()"
+            id="changeStatusButton"
+          >
+            <i class="fas fa-sync-alt"></i> Cambiar Estado
+          </button>
+          <button class="btn btn-neon w-100 mb-3" onclick="showConfig()">
+            <i class="fas fa-cogs"></i> Configuración
+          </button>
+          <button class="btn btn-outline-light w-100" onclick="toggleSidebar()">
+            <i class="fas fa-times"></i> Cerrar
+          </button>
+        </div>
+      </div>
+
+      <!-- Modal para cambiar el estado de la tarea -->
+      <dialog
+        id="change-status-modal"
+        class="bg-dark text-light p-4 rounded border-0"
+      >
+        <h2 class="text-neon">Cambiar Estado de la Tarea</h2>
+        <p id="task-name" class="text-light"></p>
+        <!-- Aquí se mostrará el título de la tarea -->
+
+        <!-- Selección de tarea -->
+        <label for="task-select" class="form-label">Seleccionar Tarea:</label>
+        <select
+          id="task-select"
+          class="form-control bg-dark text-light border-neon mt-3"
+        >
+          <!-- Las opciones de las tareas se cargarán aquí mediante JavaScript -->
+        </select>
+
+        <!-- Selección del estado -->
+        <label for="task-status" class="form-label mt-3"
+          >Seleccionar Estado:</label
+        >
+        <select
+          id="task-status"
+          class="form-control bg-dark text-light border-neon mt-3"
+        >
+          <option value="pendiente">Pendiente</option>
+          <option value="en progreso">En Progreso</option>
+          <option value="completada">Completada</option>
+        </select>
+
+        <input type="hidden" id="task-id" />
+        <!-- Campo oculto para el ID de la tarea -->
+        <button class="btn btn-neon mt-3" onclick="closeChangeStatusForm()">
+          Cancelar
+        </button>
+        <button class="btn btn-outline-light mt-3" onclick="changeTaskStatus()">
+          Guardar 
+        </button>
+      </dialog>
     </div>
 
     <!-- Bootstrap JS (solo uno de los scripts debe estar aquí) -->
@@ -53,5 +139,5 @@
     <script src="./app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-</body>
+  </body>
 </html>
