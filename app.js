@@ -91,20 +91,31 @@ function displayTasks(tasks) {
       <div class="task-info">
         <h3>${task.title} ${statusIcon}</h3>
         <p class="${statusColor}"><strong>Estado:</strong> ${task.status}</p>
-        <p><strong>Fecha de creación:</strong> ${new Date(task.createdAt).toLocaleString()}</p>
+        <p><strong>Fecha de creación:</strong> ${new Date(
+          task.createdAt
+        ).toLocaleString("es-ES", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+        })}</p>
         <p>${task.detail}</p>
       </div>
       <div class="task-actions">
-        <button onclick="playTaskDetail('${task.title}', '${task.detail}')">▶️ Play</button>
+        <button onclick="playTaskDetail('${task.title}', '${
+      task.detail
+    }')">▶️ Play</button>
         <button onclick="deleteTask('${task.id}')">Eliminar</button>
-        <button onclick="showChangeStatusForm('${task.id}', '${task.status}', '${task.title}')">Cambiar Estado</button>
+        <button onclick="showChangeStatusForm('${task.id}', '${
+      task.status
+    }', '${task.title}')">Cambiar Estado</button>
       </div>
     `;
 
     taskList.appendChild(taskCard);
   });
 }
-
 
 // Función para reproducir el detalle de una tarea en audio
 function playTaskDetail(title, detail) {
