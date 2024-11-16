@@ -29,6 +29,7 @@ async function loadTasksSelector() {
     console.error("Error al cargar tareas:", error);
   }
 }
+
 // Función para eliminar una tarea
 function deleteTask(taskId) {
   if (!taskId) {
@@ -77,14 +78,14 @@ function displayTasks(tasks) {
     let statusIcon = "";
     let statusColor = "";
     if (task.status === "pendiente") {
-      statusIcon = '<i class="fas fa-hourglass-start text-warning"></i>'; // Icono de "Pendiente"
-      statusColor = "text-warning"; // Color amarillo
+      statusIcon = '<i class="fas fa-hourglass-start text-warning"></i>';
+      statusColor = "text-warning";
     } else if (task.status === "en progreso") {
-      statusIcon = '<i class="fas fa-spinner text-info"></i>'; // Icono de "En progreso"
-      statusColor = "text-info"; // Color azul
+      statusIcon = '<i class="fas fa-spinner text-info"></i>';
+      statusColor = "text-info";
     } else if (task.status === "completada") {
-      statusIcon = '<i class="fas fa-check-circle text-success"></i>'; // Icono de "Completada"
-      statusColor = "text-success"; // Color verde
+      statusIcon = '<i class="fas fa-check-circle text-success"></i>';
+      statusColor = "text-success";
     }
 
     taskCard.innerHTML = `
@@ -117,11 +118,17 @@ function displayTasks(tasks) {
   });
 }
 
-// Función para reproducir el detalle de una tarea en audio
 function playTaskDetail(title, detail) {
   const taskCard = document.getElementById(`task-${title}`);
   taskCard?.classList.add("task-playing");
+
+  const savedConfig = JSON.parse(localStorage.getItem("appConfig"));
+  const speechRate = savedConfig?.sliderValue || 1;
+  const speechLanguage = savedConfig?.language || "es-ES";
+
   const speech = new SpeechSynthesisUtterance(`${title}. ${detail}`);
+  speech.rate = speechRate;
+  speech.lang = speechLanguage;
   speech.onend = () => taskCard?.classList.remove("task-playing");
   speechSynthesis.speak(speech);
 }
@@ -148,7 +155,6 @@ function showChangeStatusForm(taskId, currentStatus, taskTitle) {
 
 async function showChangeStatusFormNav() {
   const modal = document.getElementById("change-status-modal");
-  //Colocar Todas las tareas
   await loadTasksSelector();
   modal.showModal();
 }
@@ -175,12 +181,13 @@ async function changeTaskStatus() {
   }
 }
 
+// Crear una nueva tarea
 async function createTask() {
   const title = document.getElementById("task-title").value;
   const detail = document.getElementById("task-detail").value;
   const status = document.getElementById("task-status").value;
   try {
-    await fetch(`${API_URL}/${taskId}`, {
+    await fetch(`${API_URL}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title, detail, status }),
@@ -201,5 +208,106 @@ function closeCreateTaskForm() {
   document.getElementById("create-task-modal").close();
 }
 
-// Cargar las tareas al inicio
-getTasks();
+// *** Funciones para Configuración ***
+
+// Mostrar el modal de configuración y cargar valores desde LocalStorage
+function showConfig() {
+  const modal = document.getElementById("config-modal");
+  loadConfigOptions();
+
+  // Cargar configuración desde LocalStorage
+  const savedConfig = JSON.parse(localStorage.getItem("appConfig"));
+  if (savedConfig) {
+    document.getElementById("config-select").value =
+      savedConfig.selectedOption || "";
+    document.getElementById("config-range").value =
+      savedConfig.sliderValue || 1;
+    document.getElementById("language-select").value =
+      savedConfig.language || "es-ES";
+    updateRangeValue(savedConfig.sliderValue || 1);
+  }
+
+  modal.showModal();
+}
+
+// Cerrar el modal de configuración
+function closeConfig() {
+  document.getElementById("config-modal").close();
+}
+
+// Actualizar el valor visible del slider en tiempo real
+function updateRangeValue(value) {
+  document.getElementById("range-value").textContent = `Valor actual: ${value}`;
+}
+
+function saveConfig() {
+  const configSelect = document.getElementById("config-select");
+  const configRange = document.getElementById("config-range");
+  const languageSelect = document.getElementById("language-select");
+
+  if (!configSelect || !configRange || !languageSelect) {
+    console.error(
+      "Uno o más elementos de configuración no se encontraron en el DOM."
+    );
+    return;
+  }
+
+  const selectedOption = configSelect.value;
+  const sliderValue = configRange.value;
+  const language = languageSelect.value;
+
+  const config = { selectedOption, sliderValue, language };
+
+  localStorage.setItem("appConfig", JSON.stringify(config));
+
+  Swal.fire(
+    "Configuración guardada",
+    "Tus ajustes han sido aplicados.",
+    "success"
+  );
+  closeConfig();
+}
+
+// Cargar valores en el combo desde la API
+async function loadConfigOptions() {
+  const select = document.getElementById("config-select");
+  if (!select) {
+    console.error("El elemento config-select no se encontró en el DOM.");
+    return;
+  }
+  select.innerHTML = "<option>Cargando opciones...</option>";
+
+  try {
+    const response = await fetch(API_URL);
+    if (response.ok) {
+      const data = await response.json();
+      select.innerHTML = "";
+      data.forEach((item) => {
+        const option = document.createElement("option");
+        option.value = item.id;
+        option.textContent = item.title;
+        select.appendChild(option);
+      });
+    } else {
+      select.innerHTML = "<option>Error al cargar opciones</option>";
+    }
+  } catch (error) {
+    console.error("Error al cargar opciones de configuración:", error);
+    select.innerHTML = "<option>Error al cargar opciones</option>";
+  }
+}
+
+// Evento para cargar las tareas al inicio y configurar el botón de configuración
+document.addEventListener("DOMContentLoaded", () => {
+  getTasks();
+
+  // Configurar el evento click para el botón de configuración
+  const configButton = document.getElementById("configButton");
+  if (configButton) {
+    configButton.addEventListener("click", showConfig);
+  } else {
+    console.error(
+      "El botón de configuración con ID 'configButton' no se encontró en el DOM."
+    );
+  }
+});
