@@ -46,7 +46,6 @@
           id="task-detail"
           placeholder="Detalle de la tarea"
         ></textarea>
-        <!-- Estado inicial de la tarea -->
         <label for="task-status" class="form-label mt-3"
           >Seleccionar Estado:</label
         >
@@ -82,7 +81,7 @@
           >
             <i class="fas fa-sync-alt"></i> Cambiar Estado
           </button>
-          <button class="btn btn-neon w-100 mb-3" onclick="showConfig()">
+          <button id="configButton" class="btn btn-neon w-100 mb-3">
             <i class="fas fa-cogs"></i> Configuración
           </button>
           <button class="btn btn-outline-light w-100" onclick="toggleSidebar()">
@@ -91,22 +90,18 @@
         </div>
       </div>
 
+      <!-- Modal para cambiar estado -->
       <dialog
         id="change-status-modal"
         class="bg-dark text-light p-4 rounded border-0"
       >
         <h2 class="text-neon">Cambiar Estado de la Tarea</h2>
         <p id="task-name" class="text-light"></p>
-        <!-- Aquí se mostrará el título de la tarea -->
-
-        <!-- Selección de tarea -->
         <label for="task-select" class="form-label">Seleccionar Tarea:</label>
         <select
           id="task-select"
           class="form-control bg-dark text-light border-neon mt-3"
         ></select>
-
-        <!-- Selección del estado -->
         <label for="edit-task-status" class="form-label mt-3"
           >Seleccionar Estado:</label
         >
@@ -118,9 +113,6 @@
           <option value="en progreso">En Progreso</option>
           <option value="completada">Completada</option>
         </select>
-
-        <input type="hidden" id="task-id" />
-        <!-- Campo oculto para el ID de la tarea -->
         <button class="btn btn-neon mt-3" onclick="closeChangeStatusForm()">
           Cancelar
         </button>
@@ -128,9 +120,62 @@
           Guardar
         </button>
       </dialog>
+
+      <!-- Modal de configuración -->
+      <!-- Modal de configuración -->
+      <dialog id="config-modal" class="bg-dark text-light p-4 rounded border-0">
+        <h2 class="text-neon">Configuración</h2>
+
+        <!-- Selección de opción -->
+        <label for="config-select" class="form-label mt-3"
+          >Seleccionar Opción:</label
+        >
+        <select
+          id="config-select"
+          class="form-control bg-dark text-light border-neon mt-3"
+        >
+          <option>Cargando opciones...</option>
+        </select>
+
+        <!-- Selección de idioma -->
+        <label for="language-select" class="form-label mt-3"
+          >Seleccionar Idioma:</label
+        >
+        <select
+          id="language-select"
+          class="form-control bg-dark text-light border-neon mt-3"
+        >
+          <option value="es-ES">Español</option>
+          <option value="en-US">Inglés</option>
+          <option value="fr-FR">Francés</option>
+        </select>
+
+        <!-- Control de velocidad -->
+        <label for="config-range" class="form-label mt-3">Ajuste:</label>
+        <input
+          id="config-range"
+          type="range"
+          min="-0.9"
+          max="1.2"
+          step="0.1"
+          value="1"
+          class="form-range bg-dark border-neon mt-3"
+          oninput="updateRangeValue(this.value)"
+        />
+
+        <p id="range-value" class="text-light">Velocidad de audio: 1</p>
+
+        <!-- Botones del modal -->
+        <button class="btn btn-neon mt-3" onclick="closeConfig()">
+          Cancelar
+        </button>
+        <button class="btn btn-outline-light mt-3" onclick="saveConfig()">
+          Guardar
+        </button>
+      </dialog>
     </div>
 
-    <!-- Bootstrap JS (solo uno de los scripts debe estar aquí) -->
+    <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="./app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
