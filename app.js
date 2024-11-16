@@ -67,36 +67,44 @@ function deleteTask(taskId) {
 function displayTasks(tasks) {
   const taskList = document.getElementById("task-list");
   taskList.innerHTML = "";
+
   tasks.forEach((task) => {
     const taskCard = document.createElement("div");
     taskCard.className = "task-card";
     taskCard.id = `task-${task.id}`;
+
+    // Determinar ícono y color según el estado de la tarea
+    let statusIcon = "";
+    let statusColor = "";
+    if (task.status === "pendiente") {
+      statusIcon = '<i class="fas fa-hourglass-start text-warning"></i>'; // Icono de "Pendiente"
+      statusColor = "text-warning"; // Color amarillo
+    } else if (task.status === "en progreso") {
+      statusIcon = '<i class="fas fa-spinner text-info"></i>'; // Icono de "En progreso"
+      statusColor = "text-info"; // Color azul
+    } else if (task.status === "completada") {
+      statusIcon = '<i class="fas fa-check-circle text-success"></i>'; // Icono de "Completada"
+      statusColor = "text-success"; // Color verde
+    }
+
     taskCard.innerHTML = `
       <div class="task-info">
-        <h3>${task.title} ${
-      task.status === "completada"
-        ? '<i class="fas fa-check-circle text-success"></i>'
-        : ""
-    }</h3>
-        <p><strong>Estado:</strong> ${task.status}</p>
-        <p><strong>Fecha de creación:</strong> ${new Date(
-          task.createdAt
-        ).toLocaleString()}</p>
+        <h3>${task.title} ${statusIcon}</h3>
+        <p class="${statusColor}"><strong>Estado:</strong> ${task.status}</p>
+        <p><strong>Fecha de creación:</strong> ${new Date(task.createdAt).toLocaleString()}</p>
         <p>${task.detail}</p>
       </div>
       <div class="task-actions">
-        <button onclick="playTaskDetail('${task.title}', '${
-      task.detail
-    }')">▶️ Play</button>
+        <button onclick="playTaskDetail('${task.title}', '${task.detail}')">▶️ Play</button>
         <button onclick="deleteTask('${task.id}')">Eliminar</button>
-        <button onclick="showChangeStatusForm('${task.id}', '${
-      task.status
-    }', '${task.title}')">Cambiar Estado</button>
+        <button onclick="showChangeStatusForm('${task.id}', '${task.status}', '${task.title}')">Cambiar Estado</button>
       </div>
     `;
+
     taskList.appendChild(taskCard);
   });
 }
+
 
 // Función para reproducir el detalle de una tarea en audio
 function playTaskDetail(title, detail) {
