@@ -21,6 +21,14 @@ body {
   position: relative;
 }
 
+.text-muted {
+  color: #6c757d !important;
+}
+
+.task-card .task-info.completed {
+  text-decoration: line-through;
+}
+
 header {
   position: relative;
   display: flex;
@@ -214,7 +222,21 @@ button:hover {
 #sidebar.open {
   left: 0; /* Muestra el sidebar */
 }
+/* Estilo para diferenciar la tarea que se está reproduciendo */
+.task-playing {
+  border: 2px solid #28a745;
+  animation: playingAnimation 1s infinite;
+}
 
+@keyframes playingAnimation {
+  0%,
+  100% {
+    background-color: #e8f0fa;
+  }
+  50% {
+    background-color: #d4edda;
+  }
+}
 /* Estilos responsivos */
 @media screen and (max-width: 768px) {
   .task-card {

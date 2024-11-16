@@ -77,7 +77,7 @@
           </button>
           <button
             class="btn btn-neon w-100 mb-3"
-            onclick="showChangeStatusForm()"
+            onclick="showChangeStatusFormNav()"
             id="changeStatusButton"
           >
             <i class="fas fa-sync-alt"></i> Cambiar Estado
@@ -91,7 +91,6 @@
         </div>
       </div>
 
-      <!-- Modal para cambiar el estado de la tarea -->
       <dialog
         id="change-status-modal"
         class="bg-dark text-light p-4 rounded border-0"
@@ -105,16 +104,14 @@
         <select
           id="task-select"
           class="form-control bg-dark text-light border-neon mt-3"
-        >
-          <!-- Las opciones de las tareas se cargarán aquí mediante JavaScript -->
-        </select>
+        ></select>
 
         <!-- Selección del estado -->
-        <label for="task-status" class="form-label mt-3"
+        <label for="edit-task-status" class="form-label mt-3"
           >Seleccionar Estado:</label
         >
         <select
-          id="task-status"
+          id="edit-task-status"
           class="form-control bg-dark text-light border-neon mt-3"
         >
           <option value="pendiente">Pendiente</option>
@@ -128,7 +125,7 @@
           Cancelar
         </button>
         <button class="btn btn-outline-light mt-3" onclick="changeTaskStatus()">
-          Guardar 
+          Guardar
         </button>
       </dialog>
     </div>
