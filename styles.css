@@ -26,7 +26,7 @@ body {
   align-items: center;
   min-height: 100vh;
   margin: 0;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .swal2-container {
