@@ -1,34 +1,38 @@
 /* Variables de color */
 :root {
-  --bg-dark: #121212;
-  --bg-light: #1e1e2f;
-  --accent: #00bcd4;
-  --text-light: #ffffff;
+  --bg-basic: #95584c !important;
+  --bg-light: #9b5235;
+  --accent: #305973;
+  --text-light: #c5c9ca;
   --text-muted: #b0b0b0;
-  --card-bg: #2c2c3e;
-  --card-hover: #3c3c4f;
-  --button-hover: #00acc1;
+  --card-bg: #df760b;
+  --card-hover: #4d7e588a;
+  --button-hover: #5ae4f3;
 }
 
-/* Reset básico */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Estilo del cuerpo */
 body {
-  font-family: 'Poppins', sans-serif;
-  background-color: var(--bg-dark);
+  font-family: "Open Sans", sans-serif;
+  background: url("./img/imageback.jpg") no-repeat center center fixed;
+  background-size: cover;
   color: var(--text-light);
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  margin: 0;
+  overflow: hidden;
 }
 
-/* Contenedor principal */
+.swal2-container {
+  z-index: 9999 !important; /* Ajusta el valor según sea necesario */
+}
+
 .container {
   background-color: var(--bg-light);
   border-radius: 8px;
@@ -39,13 +43,11 @@ body {
   margin: 20px auto;
 }
 
-/* Títulos */
 header h1 {
   font-size: 1.8rem;
-  color: var(--accent);
+  color: #c5c9ca;
 }
 
-/* Tarjetas */
 .tasks-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -54,12 +56,12 @@ header h1 {
 }
 
 .task-card {
-  background-color: var(--card-bg);
-  border: none;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #f0a055;
+  border-radius: 5px;
 }
 
 .task-card:hover {
@@ -68,36 +70,34 @@ header h1 {
 }
 
 .task-info {
-  margin-bottom: 15px;
+  flex: 1;
 }
 
 .task-info.completed {
   text-decoration: line-through;
+  color: var(--text-muted);
+}
+.text-success {
+  color: #11ff47 !important;
 }
 
 .task-actions {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   gap: 10px;
 }
 
 .task-actions button {
-  padding: 10px 15px;
-  background-color: var(--accent);
-  color: var(--text-light);
+  padding: 5px 10px;
+  background-color: #134623b5;
+  color: white;
   border: none;
-  border-radius: 25px;
-  font-weight: bold;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
 }
-
 .task-actions button:hover {
-  background-color: var(--button-hover);
-  transform: scale(1.05);
+  background-color: #2b4e63;
 }
-
-/* Modal */
 dialog {
   background-color: var(--bg-light);
   border: none;
@@ -110,7 +110,6 @@ dialog::backdrop {
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-/* Inputs y select */
 input,
 textarea,
 select {
@@ -131,15 +130,33 @@ select:focus {
   box-shadow: 0 0 8px var(--accent);
 }
 
-/* Sidebar */
+.btn-primary {
+  background-color: #075418 !important;
+  border-color: #dfebed !important;
+}
+
+.text-warning {
+  color: #fff50a !important;
+}
+
+.text-info {
+  color: #00fff5 !important;
+}
+
+.btn-neon {
+  border-color: #dfebed;
+  color: aliceblue;
+  cursor: pointer;
+}
 #sidebar {
   position: fixed;
   top: 0;
   left: -250px;
   width: 250px;
   height: 100%;
-  background: var(--bg-light);
-  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
+  background: #743c08 !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   transition: transform 0.3s ease;
   padding-top: 20px;
